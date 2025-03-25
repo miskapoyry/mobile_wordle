@@ -1,20 +1,22 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import HomeScreen from './src/screens/HomeScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Navigator>
+        <Screen name="Home" component={HomeScreen} options={{
+          headerShown: false, tabBarShowLabel: false, tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={30} color={"black"} />
+          ),
+        }} />
+      </Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
