@@ -1,22 +1,23 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import HomeScreen from './src/screens/HomeScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { AuthContextProvider } from './src/context/AuthContext';
+import { useAuth } from './src/hooks/useAuth';
+import NoAuthNavigator from './src/navigators/NoAuthNavigator';
+import AppNavigator from './src/navigators/AppNavigator';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const NavigationType = () => {
+  const { user } = useAuth();
 
-export default function App() {
-  return (
+  return(
     <NavigationContainer>
-      <Navigator>
-        <Screen name="Home" component={HomeScreen} options={{
-          headerShown: false, tabBarShowLabel: false, tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={30} color={"black"} />
-          ),
-        }} />
-      </Navigator>
+      {user ? <AppNavigator /> : <NoAuthNavigator />}
     </NavigationContainer>
   );
+};
+
+export default function App() {
+  return(
+    <AuthContextProvider>
+      <NavigationType />
+    </AuthContextProvider>
+  )
 }
