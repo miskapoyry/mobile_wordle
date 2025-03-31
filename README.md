@@ -1,3 +1,3 @@
 Mobiiliohjelmoinnin projektin palautusrepo.
 
-Projektin yhteydessä täytetty päiväkirja löytyy täältä: [Päiväkirja](./paivakirja.md)
+Projektin yhteydessä täytetty päiväkirja löytyy täältä: [Päiväkirja](./Paivakirja.md)
