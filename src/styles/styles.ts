@@ -7,9 +7,28 @@ export const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
-        paddingTop: 150
+        padding: 5,
+        fontSize: 40,
+        fontWeight: "bold",
+    },
+    description: {
+        textAlign: "center",
+        fontSize: 16
     },
     intro: {
         textAlign: "center"
-    }
+    },
+    container: {
+        flex: 1,
+        padding: 16,
+        justifyContent: 'center',
+      },
+      buttonContainer: {
+        marginTop: 20,
+        gap: 10,
+        alignItems: 'center',
+      },
+      button: {
+        width: 250,
+      },
 })
