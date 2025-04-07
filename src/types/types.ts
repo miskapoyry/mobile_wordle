@@ -12,3 +12,8 @@ export type NoAuthParams = {
     Login: undefined;
     Register: undefined;
 };
+
+export type GameParams = {
+    Home: undefined;
+    Game: { wordLength: number };
+};
