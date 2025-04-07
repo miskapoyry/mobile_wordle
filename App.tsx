@@ -3,11 +3,12 @@ import { AuthContextProvider } from './src/context/AuthContext';
 import { useAuth } from './src/hooks/useAuth';
 import NoAuthNavigator from './src/navigators/NoAuthNavigator';
 import AppNavigator from './src/navigators/AppNavigator';
+import { PaperProvider } from 'react-native-paper';
 
 const NavigationType = () => {
   const { user } = useAuth();
 
-  return(
+  return (
     <NavigationContainer>
       {user ? <AppNavigator /> : <NoAuthNavigator />}
     </NavigationContainer>
@@ -15,9 +16,11 @@ const NavigationType = () => {
 };
 
 export default function App() {
-  return(
-    <AuthContextProvider>
-      <NavigationType />
-    </AuthContextProvider>
+  return (
+    <PaperProvider>
+      <AuthContextProvider>
+        <NavigationType />
+      </AuthContextProvider>
+    </PaperProvider>
   )
 }
