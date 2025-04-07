@@ -9,9 +9,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { NoAuthParams } from '../types/types';
 import { Platform } from 'react-native';
+import Loading from '../components/Loading';
 
 const LoginScreen = () => {
-  
+
   type LoginNav = NativeStackNavigationProp<NoAuthParams, 'Login'>;
 
   const { logIn } = useAuth();
@@ -20,15 +21,23 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     try {
-      setError(null)
+      setError(null);
+      setLoading(true);
       await logIn(email, password);
     } catch (error: any) {
       setError(error.message)
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
+  if(loading) {
+    return <Loading />;
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}
