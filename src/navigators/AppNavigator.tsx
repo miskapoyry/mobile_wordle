@@ -1,29 +1,18 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from '@expo/vector-icons';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import StatsScreen from "../screens/StatsScreen";
+import GameScreen from "../screens/GameScreen";
 
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
     return (
-        <Tab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false }}>
-            <Tab.Screen name="Home" component={HomeScreen} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="game-controller" size={28} color="black" />
-                ),
-            }} />
-            <Tab.Screen name="Statistics" component={StatsScreen} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="stats-chart" size={28} color={"black"} />
-                ),
-            }} />
-            <Tab.Screen name="Profile" component={ProfileScreen} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="person" size={28} color={"black"} />
-                ),
-            }} />
-        </Tab.Navigator>
-    )
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Game" component={GameScreen} />
+            <Stack.Screen name="Statistics" component={StatsScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+        </Stack.Navigator>
+    );
 }
