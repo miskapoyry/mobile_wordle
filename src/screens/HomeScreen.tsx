@@ -49,7 +49,7 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <FadeInAnimation duration={500}>
+            <FadeInAnimation duration={1000}>
                 <PageHeader title="Wordle Ranked" description="The competitive side of Wordle" />
                 <View style={styles.buttonContainer}>
                     <Button mode="contained" style={styles.button} onPress={showModal}>
