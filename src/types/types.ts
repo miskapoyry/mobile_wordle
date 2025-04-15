@@ -23,7 +23,7 @@ export type GameParams = {
 export interface UserContextType {
     user: User | null;
     logIn: (email: string, password: string) => Promise<UserCredential>
-    register: (email: string, password: string) => Promise<UserCredential>
+    register: (email: string, password: string, username: string) => Promise<UserCredential>
     logOut: () => Promise<void>;
     loading: boolean;
 }

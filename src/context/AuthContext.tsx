@@ -1,7 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { FIREBASE_AUTH } from "../firebaseConfig";
+import { db, FIREBASE_AUTH } from "../firebaseConfig";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, UserCredential} from "firebase/auth";
 import { UserContextType } from "../types/types";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 const AuthContext = createContext<UserContextType | undefined>(undefined);
 
@@ -19,8 +20,20 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         return () => unsubscribe();
     }, []);
 
-    const register = (email: string, password: string) => {
-        return createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+    const register = async (email: string, password: string, username: string) => {
+        const userCredential = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+            email: email,
+            username: username,
+            points: 0,
+            wins: 0,
+            losses: 0,
+            games: 0,
+        });
+
+        return userCredential;
     };
 
     const logIn = (email: string, password: string) => {
