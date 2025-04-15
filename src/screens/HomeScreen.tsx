@@ -55,8 +55,8 @@ export default function HomeScreen() {
                     <Button mode="contained" style={styles.button} onPress={showModal}>
                         Start Game
                     </Button>
-                    <Button mode="contained" style={styles.button} onPress={() => console.log("Stats show here")}>
-                        My Statistics
+                    <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("Statistics")}>
+                        Statistics
                     </Button>
                     <Button mode="contained" style={styles.button} onPress={() => console.log("How to play")}>
                         Instructions
