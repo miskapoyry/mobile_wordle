@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TextInput, Button, SafeAreaView, Alert } from "react-native";
 import { validateRandomWord } from "../utils/wordService";
 import { Text } from "react-native-paper";
+import { saveResult } from "../utils/resultService";
 
 type Props = {
     targetWord: string;
@@ -12,6 +13,14 @@ export default function GameBoard({ targetWord, maxGuesses }: Props) {
     const [guess, setGuess] = useState("");
     const [guesses, setGuesses] = useState<string[]>([]);
     const [status, setStatus] = useState<"playing" | "won" | "lost">("playing");
+
+    useEffect(() => {
+        if(status === "won" || status === "lost") {
+            saveResult(status, targetWord.length)
+                .then(() => console.log("Game result saved."))
+                .catch((error) => console.error("Error saving game result:", error));
+        }
+    })
 
     const handleGuess = async () => {
 
