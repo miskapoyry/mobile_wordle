@@ -3,24 +3,32 @@ import { View, TextInput, Button, SafeAreaView, Alert } from "react-native";
 import { validateRandomWord } from "../utils/wordService";
 import { Text } from "react-native-paper";
 import { saveResult } from "../utils/resultService";
+import { useStatsContext } from "../hooks/useStatsContext";
+import { GameProps } from "../types/types";
 
-type Props = {
-    targetWord: string;
-    maxGuesses: number;
-};
-
-export default function GameBoard({ targetWord, maxGuesses }: Props) {
+export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
     const [guess, setGuess] = useState("");
     const [guesses, setGuesses] = useState<string[]>([]);
     const [status, setStatus] = useState<"playing" | "won" | "lost">("playing");
+    const { refreshStats } = useStatsContext();
 
     useEffect(() => {
-        if(status === "won" || status === "lost") {
-            saveResult(status, targetWord.length)
-                .then(() => console.log("Game result saved."))
-                .catch((error) => console.error("Error saving game result:", error));
+        if (status === "won" || status === "lost") {
+            handleEndGame();
         }
-    })
+    }, [status]);
+
+    const handleEndGame = async () => {
+        if (status === "won" || status === "lost") {
+            try {
+                await saveResult(status, targetWord.length);
+                await refreshStats();
+                console.log("Game result saved and stats refreshed.");
+            } catch (error) {
+                console.error("Error saving: ", error)
+            }
+        }
+    };
 
     const handleGuess = async () => {
 
