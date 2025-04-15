@@ -7,6 +7,7 @@ import { PaperProvider } from 'react-native-paper';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import Loading from './src/components/Loading';
+import { StatsContextProvider } from './src/context/StatsContext';
 
 // Expo SplashScreen estämään typerä loginin flashaaminen
 SplashScreen.preventAutoHideAsync();
@@ -16,7 +17,11 @@ const NavigationType = () => {
 
   return (
     <NavigationContainer>
-      {user ? <AppNavigator /> : <NoAuthNavigator />}
+      {user ? (
+        <StatsContextProvider>
+          <AppNavigator />
+        </StatsContextProvider>
+      ) : <NoAuthNavigator />}
     </NavigationContainer>
   );
 };
