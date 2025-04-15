@@ -18,6 +18,7 @@ export type NoAuthParams = {
 export type GameParams = {
     Home: undefined;
     Game: { wordLength: number };
+    Statistics: undefined;
 };
 
 export interface UserContextType {
@@ -26,4 +27,21 @@ export interface UserContextType {
     register: (email: string, password: string, username: string) => Promise<UserCredential>
     logOut: () => Promise<void>;
     loading: boolean;
+}
+
+export type GameStats = {
+    points: number;
+    wins: number;
+    losses: number;
+    games: number;
+}
+
+export interface StatsContextType {
+    stats: GameStats | null;
+    refreshStats: () => Promise<void>;
+}
+
+export type GameProps = {
+    targetWord: string;
+    maxGuesses: number;
 }
