@@ -35,5 +35,42 @@ export const styles = StyleSheet.create({
   },
   button: {
     width: 250,
+  },
+  profileMenu: {
+    position: "absolute",
+    top: -240,
+    right: 10,
+    zIndex: 10,
+  },
+  profileGreeting: {
+    position: "absolute",
+    top: -240,
+    left: 10,
+    zIndex: 10,
+  },
+  greetingText: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  profileDivider: {
+    position: "relative",
+    top: -190,
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
+  imageContainer: {
+    alignItems: "center",
+    marginTop: 24,
+    marginBottom: 24,
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: "#ddd",
+  },
+  input : {
+    marginBottom: 10,
   }
 })
