@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { db, FIREBASE_AUTH } from "../firebaseConfig";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, UserCredential} from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User, updateProfile } from "firebase/auth";
 import { UserContextType } from "../types/types";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const AuthContext = createContext<UserContextType | undefined>(undefined);
 
@@ -33,6 +33,10 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             games: 0,
         });
 
+        await updateProfile(user, {
+            displayName: username,
+        });
+
         return userCredential;
     };
 
@@ -44,8 +48,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         return signOut(FIREBASE_AUTH);
     };
 
-    return(
-        <AuthContext.Provider value={{ user, logIn, register, logOut, loading}}>
+    return (
+        <AuthContext.Provider value={{ user, logIn, register, logOut, loading }}>
             {children}
         </AuthContext.Provider>
     )
