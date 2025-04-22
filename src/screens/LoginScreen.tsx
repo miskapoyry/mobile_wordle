@@ -45,13 +45,20 @@ const LoginScreen = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
           <Text variant="displayMedium" style={styles.title}>Login</Text>
-          <TextInput label="Email" onChangeText={setEmail} mode="outlined" left={<TextInput.Icon icon="email" color={"#999999"} />} />
+          <TextInput 
+            label="Email" 
+            onChangeText={setEmail} 
+            mode="outlined" 
+            left={<TextInput.Icon icon="email" color={"#999999"} />} 
+            autoCorrect={false}
+          />
           <TextInput
             key={showPassword ? 'visible' : 'hidden'}
             label="Password"
             value={password}
             onChangeText={setPassword}
             mode="outlined"
+            autoCorrect={false}
             secureTextEntry={!showPassword}
             left={<TextInput.Icon icon="lock" color="#999999" />}
             right={
