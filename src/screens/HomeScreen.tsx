@@ -8,11 +8,12 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { modalStyles } from "../styles/modalStyles";
-import { GameParams } from "../types/types";
+import { AppParams } from "../types/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import ProfileMenu from "../components/ProfileMenu";
 
 export default function HomeScreen() {
-    const navigation = useNavigation<NativeStackNavigationProp<GameParams>>();
+    const navigation = useNavigation<NativeStackNavigationProp<AppParams>>();
 
     const lengths = ["4", "5", "6", "7", "8"];
     const [visible, setVisible] = useState(false);
@@ -50,6 +51,7 @@ export default function HomeScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <FadeInAnimation duration={1000}>
+                <ProfileMenu />
                 <PageHeader title="Wordle Ranked" description="The competitive side of Wordle" />
                 <View style={styles.buttonContainer}>
                     <Button mode="contained" style={styles.button} onPress={showModal}>
