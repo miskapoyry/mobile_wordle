@@ -15,10 +15,11 @@ export type NoAuthParams = {
     Register: undefined;
 };
 
-export type GameParams = {
-    Home: undefined;
+export type AppParams = {
+    Home: { refresh?: boolean };
     Game: { wordLength: number };
     Statistics: undefined;
+    Profile: undefined;
 };
 
 export interface UserContextType {
