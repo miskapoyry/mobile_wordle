@@ -1,88 +1,105 @@
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Button, SafeAreaView, Alert } from "react-native";
+import { View, TextInput, SafeAreaView, Alert } from "react-native";
+import { Text, Button } from "react-native-paper";
 import { validateRandomWord } from "../utils/wordService";
-import { Text } from "react-native-paper";
 import { saveResult } from "../utils/resultService";
 import { useStatsContext } from "../hooks/useStatsContext";
+import { checkGuess } from "../utils/guessService";
 import { GameProps } from "../types/types";
+import * as Haptics from 'expo-haptics';
+import { gameStyles } from "../styles/styles";
+import PageHeader from "./PageHeader";
+import FadeInAnimation from "./FadeInAnimation";
 
 export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
     const [guess, setGuess] = useState("");
     const [guesses, setGuesses] = useState<string[]>([]);
-    const [status, setStatus] = useState<"playing" | "won" | "lost">("playing");
+    const [feedbacks, setFeedbacks] = useState<("correct" | "present" | "absent")[][]>([]);
+    const [status, setStatus] = useState<"won" | "lost" | "playing">("playing");
     const { refreshStats } = useStatsContext();
-
-    useEffect(() => {
-        if (status === "won" || status === "lost") {
-            handleEndGame();
-        }
-    }, [status]);
-
-    const handleEndGame = async () => {
-        if (status === "won" || status === "lost") {
-            try {
-                await saveResult(status, targetWord.length);
-                await refreshStats();
-                console.log("Game result saved and stats refreshed.");
-            } catch (error) {
-                console.error("Error saving: ", error)
-            }
-        }
-    };
 
     const handleGuess = async () => {
 
-        const validatedGuess = await validateRandomWord(guess.toLowerCase());
-        if (!validatedGuess) {
-            Alert.alert("Invalid word. Please try again.");
-            return;
-        }
-
-        if (guesses.includes(guess.toLowerCase())) {
-            Alert.alert("You already guessed that word!");
-            return;
-        }
+        const loweredGuess = guess.toLowerCase();
 
         if (guess.length !== targetWord.length) {
-            Alert.alert(`Guess must be ${targetWord.length} letters long.`);
-            return;
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            return Alert.alert(`Guess must be ${targetWord.length} letters.`);
+        };
+        if (guesses.includes(loweredGuess)) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            return Alert.alert("You already guessed that word!");
         }
+        if (await validateRandomWord(loweredGuess) === false) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            return Alert.alert("Invalid word. Please try again.");
+        };
 
-        const newGuesses = guesses.concat(guess.toLowerCase());
-        setGuesses(newGuesses);
+        const { result } = checkGuess(loweredGuess, targetWord);
+        setGuesses([...guesses, loweredGuess]);
+        setFeedbacks([...feedbacks, result]);
         setGuess("");
 
-
-        if (guess.toLowerCase() === targetWord) {
+        if (loweredGuess === targetWord){
             setStatus("won");
-        } else if (newGuesses.length >= maxGuesses) {
+            await saveResult("won", targetWord.length);
+            refreshStats();
+        }
+        else if (guesses.length + 1 >= maxGuesses){
             setStatus("lost");
+            await saveResult("lost", targetWord.length);
+            refreshStats();
         }
     };
 
+    const showBg = (letters: string, feedback?: ("correct" | "present" | "absent")[]) => {
+        const letterGuesses = [];
+
+        for (let i = 0; i < targetWord.length; i++) {
+            const character = letters[i]?.toUpperCase() || "";
+            const backGround =
+                feedback?.[i] === "correct"
+                    ? "green"
+                    : feedback?.[i] === "present"
+                        ? "orange"
+                        : feedback?.[i] === "absent"
+                            ? "red"
+                            : "gray";
+
+            letterGuesses.push(
+                    <View key={i} style={[gameStyles.letterContainer, { backgroundColor: backGround }]}>
+                        <Text style={gameStyles.letterText}>{character}</Text>
+                    </View>
+            );
+        }
+
+        return <View style={gameStyles.rowed}>{letterGuesses}</View>;
+    };
+
     return (
-        <SafeAreaView>
-            <Text variant="titleLarge" style={{ marginBottom: 10, textAlign: "center" }}>Target word length: {targetWord.length}</Text>
+        <SafeAreaView style={gameStyles.container}>
+            <PageHeader title="Game Started!" description={`Guess the right ${targetWord.length} letter word. Good luck`} style={{ marginBottom: 20, marginTop: 20 }} />
 
-            {guesses.map((g, i) => (
-                <Text key={i} variant="titleMedium" style={{ marginBottom: 10, textAlign: "center" }}>{g}</Text>
-            ))}
-
+            {guesses.map((g, i) => showBg(g, feedbacks[i]))}
+            {status === "playing" && showBg(guess)}
             {status === "playing" && (
                 <>
                     <TextInput
                         value={guess}
                         onChangeText={setGuess}
                         placeholder="Your guess"
-                        style={{ borderBottomWidth: 1, marginVertical: 12 }}
+                        style={{ opacity: 0, fontSize: 0 }}
+                        autoFocus
+                        maxLength={targetWord.length}
+                        onSubmitEditing={handleGuess}
+                        returnKeyType="none"
                     />
-                    <Button title="Guess" onPress={handleGuess} />
+                    <Button onPress={handleGuess}>Make Guess</Button>
                 </>
             )}
 
-            {status === "won" && <Text style={{ marginTop: 10, color: "green" }}>Correct! You won!</Text>}
-            {status === "lost" && <Text style={{ marginTop: 10, color: "red" }}>Game over. Word was: {targetWord}</Text>}
-
+            {status === "won" && <Text style={{textAlign: "center"}}>Correct! You won!</Text>}
+            {status === "lost" && <Text style={{textAlign: "center"}}>Game over. Word was: {targetWord.toUpperCase()}</Text>}
         </SafeAreaView>
     );
 }
