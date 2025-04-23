@@ -73,4 +73,41 @@ export const styles = StyleSheet.create({
   input : {
     marginBottom: 10,
   }
+});
+
+export const gameStyles = StyleSheet.create({
+  container: {
+    padding: 20,
+    flex: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
+    marginTop: 20,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  rowed: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 5,
+  },
+  letterContainer: {
+    width: 45,
+    height: 45,
+    margin: 3,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  letterText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  }
 })
