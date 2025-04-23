@@ -15,7 +15,7 @@ import ProfileMenu from "../components/ProfileMenu";
 export default function HomeScreen() {
     const navigation = useNavigation<NativeStackNavigationProp<AppParams>>();
 
-    const lengths = ["4", "5", "6", "7", "8"];
+    const lengths = ["4", "5", "6", "7"];
     const [visible, setVisible] = useState(false);
     const [wordLength, setWordLength] = useState("5");
 
@@ -41,8 +41,6 @@ export default function HomeScreen() {
                 return 80;
             case "7":
                 return 90;
-            case "8":
-                return 100;
             default:
                 return 0;
         }
@@ -50,21 +48,19 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <FadeInAnimation duration={1000}>
-                <ProfileMenu />
-                <PageHeader title="Wordle Ranked" description="The competitive side of Wordle" />
-                <View style={styles.buttonContainer}>
-                    <Button mode="contained" style={styles.button} onPress={showModal}>
-                        Start Game
-                    </Button>
-                    <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("Statistics")}>
-                        Statistics
-                    </Button>
-                    <Button mode="contained" style={styles.button} onPress={() => console.log("How to play")}>
-                        Instructions
-                    </Button>
-                </View>
-            </FadeInAnimation>
+            <ProfileMenu />
+            <PageHeader title="Wordle Ranked" description="The competitive side of Wordle" />
+            <View style={styles.buttonContainer}>
+                <Button mode="contained" style={styles.button} onPress={showModal}>
+                    Start Game
+                </Button>
+                <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("Statistics")}>
+                    Statistics
+                </Button>
+                <Button mode="contained" style={styles.button} onPress={() => console.log("How to play")}>
+                    Instructions
+                </Button>
+            </View>
 
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} style={modalStyles.modalContainer}>
