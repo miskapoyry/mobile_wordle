@@ -4,9 +4,9 @@ import { HeaderProps } from '../types/types';
 import { styles } from '../styles/styles';
 import { Text } from "react-native-paper";
 
-const PageHeader = ({ title, description }: HeaderProps) => {
+const PageHeader = ({ title, description, style }: HeaderProps) => {
     return (
-        <View>
+        <View style={[style]}>
             <Text style={styles.title}>{title}</Text>
             <Text variant="titleSmall" style={styles.description}>{description}</Text>
         </View>

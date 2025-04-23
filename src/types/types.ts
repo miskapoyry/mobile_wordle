@@ -1,8 +1,10 @@
 import { User, UserCredential } from "firebase/auth";
+import { ViewStyle } from "react-native";
 
 export interface HeaderProps {
     title: string;
     description: string;
+    style?: ViewStyle;
 };
 
 export type FadeAnimationProps = {
