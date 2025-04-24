@@ -13,20 +13,20 @@ export default function GameScreen() {
   useEffect(() => {
     const loadValidWord = async () => {
       let validWord: string | null = null;
-  
+
       while (!validWord) {
         const word = await fetchRandomWord(wordLength);
         const isValid = await validateRandomWord(word);
-  
+
         if (isValid) {
-            console.log(word)
+          console.log(word)
           validWord = word;
         }
       }
-  
+
       setTargetWord(validWord);
     };
-  
+
     loadValidWord();
   }, [wordLength]);
 

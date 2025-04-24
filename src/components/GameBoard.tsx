@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, TextInput, SafeAreaView, Alert } from "react-native";
 import { Text, Button } from "react-native-paper";
-import { validateRandomWord } from "../utils/wordService";
+import { fetchWordDefinition, validateRandomWord } from "../utils/wordService";
 import { saveResult } from "../utils/resultService";
 import { useStatsContext } from "../hooks/useStatsContext";
 import { checkGuess } from "../utils/guessService";
@@ -9,29 +9,33 @@ import { GameProps } from "../types/types";
 import * as Haptics from 'expo-haptics';
 import { gameStyles } from "../styles/styles";
 import PageHeader from "./PageHeader";
-import FadeInAnimation from "./FadeInAnimation";
+import GameModal from "./GameModal";
+import { useAppNavigation } from "../hooks/useAppNavigation";
 
 export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
     const [guess, setGuess] = useState("");
     const [guesses, setGuesses] = useState<string[]>([]);
     const [feedbacks, setFeedbacks] = useState<("correct" | "present" | "absent")[][]>([]);
     const [status, setStatus] = useState<"won" | "lost" | "playing">("playing");
+    const [definition, setDefinition] = useState<string | null>(null);
+    const [modalVisible, setModalVisible] = useState(false);
     const { refreshStats } = useStatsContext();
+    const navigation = useAppNavigation();
 
     const handleGuess = async () => {
 
         const loweredGuess = guess.toLowerCase();
 
         if (guess.length !== targetWord.length) {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             return Alert.alert(`Guess must be ${targetWord.length} letters.`);
         };
         if (guesses.includes(loweredGuess)) {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             return Alert.alert("You already guessed that word!");
         }
         if (await validateRandomWord(loweredGuess) === false) {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             return Alert.alert("Invalid word. Please try again.");
         };
 
@@ -40,19 +44,24 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
         setFeedbacks([...feedbacks, result]);
         setGuess("");
 
+        const defi = await fetchWordDefinition(targetWord);
+        setDefinition(defi);
+
         if (loweredGuess === targetWord){
+            setModalVisible(true);
             setStatus("won");
             await saveResult("won", targetWord.length);
             refreshStats();
         }
         else if (guesses.length + 1 >= maxGuesses){
+            setModalVisible(true);
             setStatus("lost");
             await saveResult("lost", targetWord.length);
             refreshStats();
         }
     };
 
-    const showBg = (letters: string, feedback?: ("correct" | "present" | "absent")[]) => {
+    const showBg = (letters: string, feedback?: ("correct" | "present" | "absent")[], key?: string) => {
         const letterGuesses = [];
 
         for (let i = 0; i < targetWord.length; i++) {
@@ -73,14 +82,14 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
             );
         }
 
-        return <View style={gameStyles.rowed}>{letterGuesses}</View>;
+        return <View style={gameStyles.rowed} key={key}>{letterGuesses}</View>;
     };
 
     return (
         <SafeAreaView style={gameStyles.container}>
             <PageHeader title="Game Started!" description={`Guess the right ${targetWord.length} letter word. Good luck`} style={{ marginBottom: 20, marginTop: 20 }} />
 
-            {guesses.map((g, i) => showBg(g, feedbacks[i]))}
+            {guesses.map((guess, index) => showBg(guess, feedbacks[index], `${index}`))}
             {status === "playing" && showBg(guess)}
             {status === "playing" && (
                 <>
@@ -98,8 +107,23 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
                 </>
             )}
 
-            {status === "won" && <Text style={{textAlign: "center"}}>Correct! You won!</Text>}
-            {status === "lost" && <Text style={{textAlign: "center"}}>Game over. Word was: {targetWord.toUpperCase()}</Text>}
+            {status !== "playing" && (
+                <GameModal
+                    status={status}
+                    targetWord={targetWord}
+                    visible={modalVisible}
+                    definition={definition}
+                    guessAmount={guesses.length}
+                    goHome={() => {
+                        setModalVisible(false);
+                        // Laita niin, että ei voida tulla enää takaisin pelinäkymään
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: "Home" }],
+                        })
+                    }}
+                />
+            )}
         </SafeAreaView>
     );
 }
