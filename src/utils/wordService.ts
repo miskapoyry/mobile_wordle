@@ -12,3 +12,14 @@ export const validateRandomWord = async (word: string): Promise<boolean> => {
         return false;
     }
 }
+
+export const fetchWordDefinition = async (word: string): Promise<string> => {
+    try {
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+        const data = await response.json();
+        const definition = data[0].meanings[0].definitions[0].definition;
+        return definition ? definition : "The word has no definition set.";
+    } catch (error) {
+        return "Error fetching definition.";
+    }
+}
