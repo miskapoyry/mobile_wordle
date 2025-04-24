@@ -8,12 +8,10 @@ export default function FadeInAnimation({ children, duration }: FadeAnimationPro
     // Reanimatedin useState?
     const fade = useSharedValue(0);
 
-    useFocusEffect(
-        useCallback(() => {
-          fade.value = 0;
-          fade.value = withTiming(1, { duration });
-        }, [duration])
-      );
+    useEffect(() => {
+        fade.value = 0;
+        fade.value = withTiming(1, { duration });
+    }, [duration])
     
       const animatedStyle = useAnimatedStyle(() => ({
         opacity: fade.value,
