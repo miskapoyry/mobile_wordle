@@ -48,3 +48,12 @@ export type GameProps = {
     targetWord: string;
     maxGuesses: number;
 }
+
+export type GameEndModalProps = {
+    status: string;
+    targetWord: string;
+    visible: boolean;
+    goHome: () => void;
+    definition: string | null;
+    guessAmount: number;
+}
