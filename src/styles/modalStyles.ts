@@ -22,7 +22,17 @@ export const modalStyles = StyleSheet.create({
     modalContent: {
         backgroundColor: "white",
         padding: 20,
-        width: 300,
+        width: 350,
         borderRadius: 10,
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+    modalText: {
+        fontSize: 18,
+        textAlign: "center",
+        fontWeight: "bold",
     }
 })
