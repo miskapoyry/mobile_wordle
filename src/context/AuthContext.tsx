@@ -25,7 +25,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         const user = userCredential.user;
 
         await setDoc(doc(db, "users", user.uid), {
-            email: email,
             username: username,
             points: 0,
             wins: 0,

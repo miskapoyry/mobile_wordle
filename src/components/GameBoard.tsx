@@ -50,13 +50,13 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
         if (loweredGuess === targetWord){
             setModalVisible(true);
             setStatus("won");
-            await saveResult("won", targetWord.length);
+            await saveResult("won", targetWord.length, targetWord);
             refreshStats();
         }
         else if (guesses.length + 1 >= maxGuesses){
             setModalVisible(true);
             setStatus("lost");
-            await saveResult("lost", targetWord.length);
+            await saveResult("lost", targetWord.length, targetWord);
             refreshStats();
         }
     };

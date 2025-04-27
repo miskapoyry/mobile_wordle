@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import GameBoard from "../components/GameBoard";
 import { fetchRandomWord, validateRandomWord } from "../utils/wordService";

@@ -1,7 +1,7 @@
-import { addDoc, collection, doc, increment, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, increment, serverTimestamp, setDoc } from "firebase/firestore";
 import { db, FIREBASE_AUTH } from "../firebaseConfig"
 
-export const saveResult = async (status: "won" | "lost", wordLength: number) => {
+export const saveResult = async (status: "won" | "lost", wordLength: number, targetWord: string) => {
     const user = FIREBASE_AUTH.currentUser;
     if (!user) return;
     const userReference = doc(db, "users", user.uid);
@@ -14,11 +14,13 @@ export const saveResult = async (status: "won" | "lost", wordLength: number) => 
         games: increment(1),
       }, { merge: true });
     
-      await addDoc(collection(db, "users", user.uid, "games"), {
+    await addDoc(collection(db, "users", user.uid, "games"), {
         status,
+        targetWord,
         wordLength,
         pointsDifference,
-      });
+        timestamp: serverTimestamp(),
+    });
 }
 
 const getPoints = (length: number) => {
