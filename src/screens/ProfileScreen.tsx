@@ -69,7 +69,7 @@ export default function ProfileScreen() {
     <KeyboardAvoidingView style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={{ padding: 20, flex: 1 }}>
+        <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollViewContainer}>
             <PageHeader title="My Profile" description="Set up your profile here!" />
 
@@ -87,7 +87,6 @@ export default function ProfileScreen() {
               value={user?.email ?? ""}
               mode="outlined"
               left={<TextInput.Icon icon="email" color={"#999999"} />}
-              disabled
               style={styles.input}
             />
             <TextInput
@@ -97,6 +96,7 @@ export default function ProfileScreen() {
               onChangeText={setUsername}
               left={<TextInput.Icon icon="account" color="#999999" />}
               style={styles.input}
+              theme={{ colors: { primary: "white" } }}
             />
             <Button mode="contained" onPress={handleProfileSave} style={{ marginTop: 15, backgroundColor: "green" }}>
               Save Changes

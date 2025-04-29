@@ -20,7 +20,7 @@ export const modalStyles = StyleSheet.create({
         alignItems: "center",
     },
     modalContent: {
-        backgroundColor: "white",
+        backgroundColor: "black",
         padding: 20,
         width: 350,
         borderRadius: 10,

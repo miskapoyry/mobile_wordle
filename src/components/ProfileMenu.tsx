@@ -18,7 +18,7 @@ export default function ProfileMenu() {
     return (
         <View>
             <View style={styles.profileGreeting}>
-                <Text style={styles.greetingText}>Hello{user?.displayName ? `, ${user.displayName}!` : "!"}</Text>
+                <Text variant="displayMedium" style={styles.greetingText}>Hello{user?.displayName ? `, ${user.displayName}!` : "!"}</Text>
             </View>
             <View style={styles.profileMenu}>
                 {user?.photoURL ? (

@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     justifyContent: 'center',
+    backgroundColor: "#00112b",
   },
   buttonContainer: {
     marginTop: 20,
@@ -79,6 +80,7 @@ export const gameStyles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
+    backgroundColor: "#00112b",
   },
   title: {
     fontSize: 24,

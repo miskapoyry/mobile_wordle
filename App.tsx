@@ -3,11 +3,13 @@ import { AuthContextProvider } from './src/context/AuthContext';
 import { useAuth } from './src/hooks/useAuth';
 import NoAuthNavigator from './src/navigators/NoAuthNavigator';
 import AppNavigator from './src/navigators/AppNavigator';
-import { PaperProvider } from 'react-native-paper';
+import { configureFonts, DefaultTheme, PaperProvider, Surface } from 'react-native-paper';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import Loading from './src/components/Loading';
 import { StatsContextProvider } from './src/context/StatsContext';
+import * as Font from 'expo-font';
+import { useFonts } from 'expo-font';
 
 // Expo SplashScreen estämään typerä loginin flashaaminen
 SplashScreen.preventAutoHideAsync();
@@ -42,9 +44,49 @@ const AuthLoading = () => {
   return <NavigationType />
 }
 
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    text: 'white',
+    primary: '#00BFFF',
+    secondary: '#ffffff',
+    onSurface: '#ffffff',
+    background: '#000000',
+  },
+  fonts: {
+    displayLarge: { fontFamily: "JetBrainsMonoBold"},
+    displayMedium: { fontFamily: "JetBrainsMonoBold"},
+    displaySmall: {fontFamily: "JetBrainsMonoBold"},
+    headlineLarge: {fontFamily: "JetBrainsMonoRegular"},
+    headlineMedium: {fontFamily: "JetBrainsMonoRegular"},
+    headlineSmall: {fontFamily: "JetBrainsMonoRegular"},
+    titleLarge: {fontFamily: "JetBrainsMonoRegular"},
+    titleMedium: {fontFamily: "JetBrainsMonoRegular"},
+    titleSmall: {fontFamily: "JetBrainsMonoRegular"},
+    labelLarge: {fontFamily: "JetBrainsMonoRegular"},
+    labelMedium: {fontFamily: "JetBrainsMonoRegular"},
+    labelSmall: {fontFamily: "JetBrainsMonoRegular"},
+    bodyLarge: {fontFamily: "JetBrainsMonoRegular"},
+    bodyMedium: {fontFamily: "JetBrainsMonoRegular"},
+    bodySmall: {fontFamily: "JetBrainsMonoRegular"},
+  }
+}
+
 export default function App() {
+
+  const [loaded] = useFonts({
+    "JetBrainsMonoBold": require("./src/assets/fonts/JetBrainsMono-Bold.ttf"),
+    "JetBrainsMonoMedium": require("./src/assets/fonts/JetBrainsMono-Medium.ttf"),
+    "JetBrainsMonoRegular": require("./src/assets/fonts/JetBrainsMono-Regular.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
-    <PaperProvider>
+    <PaperProvider theme={theme}>
       <AuthContextProvider>
         <AuthLoading />
       </AuthContextProvider>

@@ -7,7 +7,7 @@ import { Text } from "react-native-paper";
 const PageHeader = ({ title, description, style }: HeaderProps) => {
     return (
         <View style={[style]}>
-            <Text style={styles.title}>{title}</Text>
+            <Text variant="displayLarge" style={styles.title}>{title}</Text>
             <Text variant="titleSmall" style={styles.description}>{description}</Text>
         </View>
     );
