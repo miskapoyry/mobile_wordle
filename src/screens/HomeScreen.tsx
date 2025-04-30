@@ -57,7 +57,7 @@ export default function HomeScreen() {
                 <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("Statistics")}>
                     Statistics
                 </Button>
-                <Button mode="contained" style={styles.button} onPress={() => console.log("How to play")}>
+                <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("Instructions")}>
                     Instructions
                 </Button>
             </View>
