@@ -13,6 +13,7 @@ import { styles } from "../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppParams } from "../types/types";
+import BackButton from "../components/BackButton";
 
 export default function ProfileScreen() {
   const { logOut, user } = useAuth();
@@ -70,6 +71,9 @@ export default function ProfileScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
+          <View style={{ position: "absolute", top: 65, marginLeft: 10, zIndex: 10}}>
+            <BackButton />
+          </View>
           <ScrollView style={styles.scrollViewContainer}>
             <PageHeader title="My Profile" description="Set up your profile here!" />
 

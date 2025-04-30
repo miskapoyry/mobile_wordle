@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, TextInput, SafeAreaView, Alert } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { fetchWordDefinition, validateRandomWord } from "../utils/wordService";
@@ -11,6 +11,7 @@ import { gameStyles } from "../styles/styles";
 import PageHeader from "./PageHeader";
 import GameModal from "./GameModal";
 import { useAppNavigation } from "../hooks/useAppNavigation";
+import { useStats } from "../hooks/useStats";
 
 export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
     const [guess, setGuess] = useState("");
@@ -21,6 +22,7 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
     const [modalVisible, setModalVisible] = useState(false);
     const { refreshStats } = useStatsContext();
     const navigation = useAppNavigation();
+    const { stats } = useStats();
 
     const handleGuess = async () => {
 
@@ -87,7 +89,7 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
 
     return (
         <SafeAreaView style={gameStyles.container}>
-            <PageHeader title="Game Started!" description={`Guess the right ${targetWord.length} letter word. Good luck`} style={{ marginBottom: 20, marginTop: 20 }} />
+            <PageHeader title="Game Started!" description={`Guess the right ${targetWord.length} letter word.`} style={{ marginBottom: 20, marginTop: 20 }} />
 
             {guesses.map((guess, index) => showBg(guess, feedbacks[index], `${index}`))}
             {status === "playing" && showBg(guess)}
@@ -98,10 +100,11 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
                         onChangeText={setGuess}
                         placeholder="Your guess"
                         style={{ opacity: 0, fontSize: 0 }}
-                        autoFocus
+                        autoFocus = {true}
                         maxLength={targetWord.length}
-                        onSubmitEditing={handleGuess}
                         returnKeyType="none"
+                        keyboardAppearance="dark"
+                        submitBehavior="submit"
                     />
                     <Button onPress={handleGuess}>Make Guess</Button>
                 </>
@@ -114,6 +117,7 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
                     visible={modalVisible}
                     definition={definition}
                     guessAmount={guesses.length}
+                    startingPoints={stats?.points ?? 0}
                     goHome={() => {
                         setModalVisible(false);
                         // Laita niin, että ei voida tulla enää takaisin pelinäkymään

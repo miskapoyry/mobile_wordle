@@ -1,4 +1,5 @@
 import { User, UserCredential } from "firebase/auth";
+import { VoidFunctionComponent } from "react";
 import { ViewStyle } from "react-native";
 
 export interface HeaderProps {
@@ -22,6 +23,7 @@ export type AppParams = {
     Game: { wordLength: number };
     Statistics: undefined;
     Profile: undefined;
+    Instructions: undefined;
 };
 
 export interface UserContextType {
@@ -56,4 +58,11 @@ export type GameEndModalProps = {
     goHome: () => void;
     definition: string | null;
     guessAmount: number;
+    startingPoints: number;
+}
+
+export type PointAnimationProps = {
+    totalPoints: number,
+    difference: number,
+    fontSize: number,
 }
