@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, increment, serverTimestamp, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, increment, serverTimestamp, setDoc } from "firebase/firestore";
 import { db, FIREBASE_AUTH } from "../firebaseConfig"
 
 export const saveResult = async (status: "won" | "lost", wordLength: number, targetWord: string) => {
@@ -23,7 +23,7 @@ export const saveResult = async (status: "won" | "lost", wordLength: number, tar
     });
 }
 
-const getPoints = (length: number) => {
+export const getPoints = (length: number) => {
     switch (length) {
         case 4:
             return 60;
