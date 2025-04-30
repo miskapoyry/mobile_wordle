@@ -1,6 +1,15 @@
 import { StyleSheet } from "react-native"
 
 export const styles = StyleSheet.create({
+  backButton: {
+
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    top: 18,
+    left: 15,
+  },
   loading: {
     flex: 1,
     justifyContent: "center",
@@ -39,7 +48,7 @@ export const styles = StyleSheet.create({
   },
   profileMenu: {
     position: "absolute",
-    top: -240,
+    top: -245,
     right: 10,
     zIndex: 10,
   },
@@ -97,7 +106,7 @@ export const gameStyles = StyleSheet.create({
   rowed: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 5,
+    marginBottom: 0,
   },
   letterContainer: {
     width: 45,
