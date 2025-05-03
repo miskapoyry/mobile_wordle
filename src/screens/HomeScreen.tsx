@@ -11,6 +11,7 @@ import { modalStyles } from "../styles/modalStyles";
 import { AppParams } from "../types/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ProfileMenu from "../components/ProfileMenu";
+import LottieView from "lottie-react-native";
 
 export default function HomeScreen() {
     const navigation = useNavigation<NativeStackNavigationProp<AppParams>>();
@@ -48,6 +49,12 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <LottieView
+                source={require("../assets/bgAnimation.json")}
+                autoPlay
+                loop
+                style={{ width: "100%", height: "100%", alignContent: "center", alignSelf: "center", position: "absolute", zIndex: -100 }}
+            />
             <ProfileMenu />
             <PageHeader title="Wordle Ranked" description="The competitive side of Wordle" />
             <View style={styles.buttonContainer}>

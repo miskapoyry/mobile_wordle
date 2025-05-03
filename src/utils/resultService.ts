@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, increment, serverTimestamp, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, increment, limit, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import { db, FIREBASE_AUTH } from "../firebaseConfig"
 
 export const saveResult = async (status: "won" | "lost", wordLength: number, targetWord: string) => {
@@ -12,8 +12,8 @@ export const saveResult = async (status: "won" | "lost", wordLength: number, tar
         wins: increment(status === "won" ? 1 : 0),
         losses: increment(status === "lost" ? 1 : 0),
         games: increment(1),
-      }, { merge: true });
-    
+    }, { merge: true });
+
     await addDoc(collection(db, "users", user.uid, "games"), {
         status,
         targetWord,
@@ -39,3 +39,17 @@ export const getPoints = (length: number) => {
             return 0;
     }
 };
+
+export const getTop20 = async () => {
+    const usersRef = collection(db, "users");
+    const leaderboardQuery = query(usersRef, orderBy("points", "desc"), limit(20));
+    const snapshot = await getDocs(leaderboardQuery);
+
+    return snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+            username: data.username,
+            points: data.points,
+        };
+    });
+}

@@ -10,6 +10,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { NoAuthParams } from '../types/types';
 import { Platform } from 'react-native';
 import Loading from '../components/Loading';
+import LottieView from 'lottie-react-native';
 
 const LoginScreen = () => {
 
@@ -44,6 +45,12 @@ const LoginScreen = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
+          <LottieView
+                          source={require("../assets/bgAnimation.json")}
+                          autoPlay
+                          loop
+                          style={{ width: "100%", height: "100%", alignContent: "center", alignSelf: "center", position:"absolute", zIndex:-100 }}
+                       />
           <Text variant="displayMedium" style={styles.title}>Login</Text>
           <TextInput 
             label="Email" 

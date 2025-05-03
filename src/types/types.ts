@@ -66,3 +66,8 @@ export type PointAnimationProps = {
     difference: number,
     fontSize: number,
 }
+
+export type LeaderboardStats = {
+    points: number,
+    username: string,
+}

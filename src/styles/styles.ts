@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native"
 
 export const styles = StyleSheet.create({
   backButton: {
-
     width: 30,
     height: 30,
     justifyContent: "center",
@@ -14,6 +13,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#00112b",
   },
   background: {
     flex: 1,
@@ -120,5 +120,42 @@ export const gameStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
+  }
+})
+
+export const statisticStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 20,
+    backgroundColor: "#00112b",
+  },
+  segmentedButton: {
+    marginTop: 20,
+    marginBottom: 20,
+  }
+})
+
+export const leaderBoardStyle = StyleSheet.create({
+  container: {
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  title: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 5,
+  },
+  name: {
+    flex: 1
+  },
+  rank: {
+    paddingRight: 10,
+  },
+  row: {
+    flexDirection: "row",
+    borderColor: "white",
+    borderBottomWidth: 1,
+    paddingVertical: 10,
   }
 })
