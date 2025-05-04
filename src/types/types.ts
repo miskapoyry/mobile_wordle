@@ -51,6 +51,14 @@ export type GameProps = {
     maxGuesses: number;
 }
 
+export type GameStartModalProps = {
+    visible: boolean;
+    onDismiss: () => void;
+    onStart: () => void;
+    wordLength: string; 
+    setWordLength: (val: string) => void;
+}
+
 export type GameEndModalProps = {
     status: string;
     targetWord: string;
@@ -76,4 +84,11 @@ export type StatCardProps = {
     title: string,
     amount: number,
     delay?: number,
+}
+
+export type SharingProps = {
+    word: string,
+    won: boolean,
+    guesses: number,
+    rating: number,
 }

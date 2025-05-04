@@ -12,11 +12,11 @@ import { AppParams } from "../types/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ProfileMenu from "../components/ProfileMenu";
 import LottieView from "lottie-react-native";
+import GameStartModal from "../components/GameStartModal";
 
 export default function HomeScreen() {
     const navigation = useNavigation<NativeStackNavigationProp<AppParams>>();
 
-    const lengths = ["4", "5", "6", "7"];
     const [visible, setVisible] = useState(false);
     const [wordLength, setWordLength] = useState("5");
 
@@ -28,23 +28,6 @@ export default function HomeScreen() {
         navigation.navigate("Game", {
             wordLength: Number(wordLength),
         });
-    };
-
-    const lenIndex = lengths.indexOf(wordLength);
-
-    const getPoints = (length: string) => {
-        switch (length) {
-            case "4":
-                return 60;
-            case "5":
-                return 70;
-            case "6":
-                return 80;
-            case "7":
-                return 90;
-            default:
-                return 0;
-        }
     };
 
     return (
@@ -69,38 +52,7 @@ export default function HomeScreen() {
                 </Button>
             </View>
 
-            <Portal>
-                <Modal visible={visible} onDismiss={hideModal} style={modalStyles.modalContainer}>
-                    <View style={modalStyles.modalContent}>
-                        <Text variant="titleMedium" style={modalStyles.modalIntro}>
-                            Choose the word length
-                        </Text>
-
-                        <SegmentedControl
-                            values={lengths.map((len) => `${len}`)}
-                            selectedIndex={lenIndex}
-                            onChange={(e) => {
-                                const index = e.nativeEvent.selectedSegmentIndex;
-                                setWordLength(lengths[index]);
-                            }}
-                            style={{ marginBottom: 24 }}
-                        />
-
-                        <Text variant="titleMedium" style={styles.intro}>
-                            {wordLength} letter win grants you <Text style={modalStyles.pointValue}>+{getPoints(wordLength)}p</Text>
-                        </Text>
-                        <Text variant="titleMedium" style={styles.intro}>
-                            Losing costs you <Text style={modalStyles.penaltyText}>-50p</Text>
-                        </Text>
-
-                        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                            <Button onPress={handleStartGame} style={{ marginLeft: 8 }}>
-                                Start Game
-                            </Button>
-                        </View>
-                    </View>
-                </Modal>
-            </Portal>
+            <GameStartModal visible={visible} onDismiss={hideModal} onStart={handleStartGame} wordLength={wordLength} setWordLength={setWordLength} />
         </SafeAreaView>
     );
 }

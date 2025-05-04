@@ -14,6 +14,10 @@ export const modalStyles = StyleSheet.create({
         textAlign: "center",
         fontWeight: "bold",
     },
+    modalText: {
+        marginBottom: 20,
+        alignItems: "center",
+    },
     modalContainer: {
         flex: 1,
         justifyContent: "center",
@@ -30,9 +34,21 @@ export const modalStyles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
     },
-    modalText: {
-        fontSize: 18,
+    title: {
+        fontSize: 25,
         textAlign: "center",
-        fontWeight: "bold",
-    }
+        marginBottom: 20,
+    },
+    dismiss: {
+        position: "absolute",
+        top: 20,
+        left: 20,
+        zIndex: 10,
+    },
+    share: {
+        position: "absolute",
+        top: 25,
+        right: 20,
+        zIndex: 10,
+    },
 })
