@@ -1,5 +1,5 @@
 export const ranks = [
-    { name: "NOOB", minPoints: -Infinity, maxPoints: -1, animation: require("../assets/noobAnimation.json"), },
+    { name: "NOOB", minPoints: -10000, maxPoints: -1, animation: require("../assets/noobAnimation.json"), },
     { name: "BEGINNER", minPoints: 0, maxPoints: 999, animation: require("../assets/beginnerAnimation.json"), },
     { name: "ADVANCED", minPoints: 1000, maxPoints: 2499, animation: require("../assets/advancedAnimation.json"), },
     { name: "PROFESSIONAL", minPoints: 2500, maxPoints: 4999, animation: require("../assets/professionalAnimation.json"), },
