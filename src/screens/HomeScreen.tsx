@@ -53,7 +53,7 @@ export default function HomeScreen() {
                 source={require("../assets/bgAnimation.json")}
                 autoPlay
                 loop
-                style={{ width: "100%", height: "100%", alignContent: "center", alignSelf: "center", position: "absolute", zIndex: -100 }}
+                style={styles.lottieBackground}
             />
             <ProfileMenu />
             <PageHeader title="Wordle Ranked" description="The competitive side of Wordle" />
