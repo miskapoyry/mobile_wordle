@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, increment, limit, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, increment, limit, orderBy, query, serverTimestamp, setDoc, Timestamp } from "firebase/firestore";
 import { db, FIREBASE_AUTH } from "../firebaseConfig"
 
 export const saveResult = async (status: "won" | "lost", wordLength: number, targetWord: string) => {
@@ -6,6 +6,9 @@ export const saveResult = async (status: "won" | "lost", wordLength: number, tar
     if (!user) return;
     const userReference = doc(db, "users", user.uid);
     const pointsDifference = status === "won" ? getPoints(wordLength) : -50;
+    
+    const userDoc = await getDoc(userReference);
+    const pointTotal = userDoc.exists() ? userDoc.data().points + pointsDifference || 0 : 0;
 
     await setDoc(userReference, {
         points: increment(pointsDifference),
@@ -15,6 +18,7 @@ export const saveResult = async (status: "won" | "lost", wordLength: number, tar
     }, { merge: true });
 
     await addDoc(collection(db, "users", user.uid, "games"), {
+        pointTotal,
         status,
         targetWord,
         wordLength,
@@ -51,5 +55,20 @@ export const getTop20 = async () => {
             username: data.username,
             points: data.points,
         };
+    });
+}
+
+export const fetchGameData = async () => {
+    const user = FIREBASE_AUTH.currentUser;
+    if (!user) return;
+
+    const gamesRef = collection(db, "users", user.uid, "games");
+    const gameQuery = query(gamesRef, orderBy("timestamp", "desc"), limit(10));
+    const snapshot= await getDocs(gameQuery);
+
+    return snapshot.docs.reverse().map((doc) => {
+        const data = doc.data();
+        console.log(data.pointTotal)
+        return data.pointTotal;
     });
 }

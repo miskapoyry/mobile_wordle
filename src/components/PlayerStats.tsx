@@ -3,6 +3,8 @@ import React from 'react'
 import { useStats } from '../hooks/useStats'
 import { statisticStyles, styles } from '../styles/styles';
 import PieChart from './PieChart';
+import { LineChart } from 'react-native-chart-kit';
+import RatingChart from './Linechart';
 
 export default function PlayerStats() {
 
@@ -12,10 +14,8 @@ export default function PlayerStats() {
 
     return (
         <View style={statisticStyles.container}>
+            <RatingChart />
             <PieChart wins={wins} losses={losses}/>
-            <Text>
-                TÄNNE OMA SELITETEKSTI
-            </Text>
         </View>
     )
 }
