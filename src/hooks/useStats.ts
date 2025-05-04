@@ -7,9 +7,11 @@ import { db } from "../firebaseConfig";
 export const useStats = () => {
     const { user } = useAuth();
     const [stats, setStats] = useState<GameStats | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const refreshStats = async () => {
         if (!user) return;
+        setLoading(true);
         const statDocRef = doc(db, "users", user.uid);
         const statDocSnap = await getDoc(statDocRef);
         if (statDocSnap.exists()) {
@@ -18,11 +20,12 @@ export const useStats = () => {
         } else {
             console.log("Couldn't find user stats")
         }
+        setLoading(false)
     }
 
     useEffect(() => {
         refreshStats();
     }, [user]);
 
-    return { stats, refreshStats };
+    return { stats, refreshStats, loading };
 };

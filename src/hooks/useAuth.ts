@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { db } from "../firebaseConfig"
 
-export const useAuthM = () => {
+export const useAuthFunctions = () => {
     const checkUsernameUniqueness = async (username: string): Promise<boolean> => {
         const userRef = collection(db, "users");
         const userQuery = query(userRef, where("username", "==", username));
