@@ -1,5 +1,5 @@
 export const fetchRandomWord = async (length: number): Promise<string> => {
-    const response = await fetch(`https://random-word-api.herokuapp.com/word?length=${length}`);
+    const response = await fetch(`https://random-word-api.vercel.app/api?words=1&length=${length}`);
     const data = await response.json();
     return data[0].toLowerCase();
 };
