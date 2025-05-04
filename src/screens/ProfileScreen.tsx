@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Image, View, Alert, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useAuth } from "../hooks/useAuthContext";
-import { useAuthM } from "../hooks/useAuth";
+import { useAuthFunctions } from "../hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import PageHeader from "../components/PageHeader";
@@ -23,7 +23,7 @@ export default function ProfileScreen() {
   const [username, setUsername] = useState(user?.displayName ?? "");
   const defaultImage = require("../assets/profile.png");
   const navigation = useNavigation<NativeStackNavigationProp<AppParams>>();
-  const { checkUsernameUniqueness } = useAuthM();
+  const { checkUsernameUniqueness } = useAuthFunctions();
 
   const handleLogOut = async () => {
     try {
