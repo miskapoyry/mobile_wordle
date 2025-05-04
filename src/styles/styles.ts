@@ -80,8 +80,16 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "#ddd",
   },
-  input : {
+  input: {
     marginBottom: 10,
+  },
+  lottieBackground: {
+    width: "100%",
+    height: "100%",
+    alignContent: "center",
+    alignSelf: "center",
+    position: "absolute",
+    zIndex: -100
   }
 });
 
@@ -133,6 +141,9 @@ export const statisticStyles = StyleSheet.create({
   segmentedButton: {
     marginTop: 20,
     marginBottom: 20,
+  },
+  progress: {
+    marginBottom: 30
   }
 })
 
@@ -158,4 +169,33 @@ export const leaderBoardStyle = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: 10,
   }
+})
+
+export const statCardStyle = StyleSheet.create({
+  container: {
+    backgroundColor: "#0a2239",
+    width: 100,
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: "white",
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+  },
+  title: {
+    color: "#D6E4F0",
+    fontSize: 12,
+    bottom: 10
+  },
+  line: {
+    width: 80,
+    backgroundColor: "white",
+    height: 1,
+    bottom: 8
+  },
+  amount: {
+    fontSize: 20,
+    color: "white",
+    top: 4
+  },
 })
