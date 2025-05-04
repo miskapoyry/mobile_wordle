@@ -1,12 +1,15 @@
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
+import { collection, getDocs, query, where } from "firebase/firestore"
+import { db } from "../firebaseConfig"
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-
-    if (!context) {
-        throw new Error("useAuth not in AuthProvider");
+export const useAuthM = () => {
+    const checkUsernameUniqueness = async (username: string): Promise<boolean> => {
+        const userRef = collection(db, "users");
+        const userQuery = query(userRef, where("username", "==", username));
+        const snapshot = await getDocs(userQuery);
+        return snapshot.empty;
     }
-    
-    return context;
-};
+
+    return {
+        checkUsernameUniqueness
+    }
+}

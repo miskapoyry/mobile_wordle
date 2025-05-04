@@ -2,7 +2,7 @@ import { Button, Text, TextInput } from 'react-native-paper';
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/styles';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuthContext';
 import { Keyboard, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -36,7 +36,7 @@ const LoginScreen = () => {
     }
   };
 
-  if(loading) {
+  if (loading) {
     return <Loading />;
   };
 
@@ -46,17 +46,17 @@ const LoginScreen = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
           <LottieView
-                          source={require("../assets/bgAnimation.json")}
-                          autoPlay
-                          loop
-                          style={{ width: "100%", height: "100%", alignContent: "center", alignSelf: "center", position:"absolute", zIndex:-100 }}
-                       />
+            source={require("../assets/bgAnimation.json")}
+            autoPlay
+            loop
+            style={{ width: "100%", height: "100%", alignContent: "center", alignSelf: "center", position: "absolute", zIndex: -100 }}
+          />
           <Text variant="displayMedium" style={styles.title}>Login</Text>
-          <TextInput 
-            label="Email" 
-            onChangeText={setEmail} 
-            mode="outlined" 
-            left={<TextInput.Icon icon="email" color={"#999999"} />} 
+          <TextInput
+            label="Email"
+            onChangeText={setEmail}
+            mode="outlined"
+            left={<TextInput.Icon icon="email" color={"#999999"} />}
             autoCorrect={false}
           />
           <TextInput

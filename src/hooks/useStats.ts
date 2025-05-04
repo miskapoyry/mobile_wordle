@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "./useAuth"
+import { useAuth } from "./useAuthContext"
 import { GameStats } from "../types/types";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";

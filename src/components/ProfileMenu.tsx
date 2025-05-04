@@ -4,7 +4,7 @@ import { Avatar, Divider, IconButton, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppParams } from "../types/types";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuthContext";
 import { styles } from "../styles/styles";
 
 export default function ProfileMenu() {

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Image, View, Alert, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuthContext";
+import { useAuthM } from "../hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import PageHeader from "../components/PageHeader";
@@ -22,6 +23,7 @@ export default function ProfileScreen() {
   const [username, setUsername] = useState(user?.displayName ?? "");
   const defaultImage = require("../assets/profile.png");
   const navigation = useNavigation<NativeStackNavigationProp<AppParams>>();
+  const { checkUsernameUniqueness } = useAuthM();
 
   const handleLogOut = async () => {
     try {
@@ -34,6 +36,12 @@ export default function ProfileScreen() {
   const handleProfileSave = async () => {
     const currentUser = FIREBASE_AUTH.currentUser;
     if (!currentUser) return;
+    const nameUnique = await checkUsernameUniqueness(username);
+
+    if(!nameUnique) {
+      Alert.alert("This username is already in use!");
+      return;
+    }
 
     try {
       await updateProfile(currentUser, {
@@ -71,7 +79,7 @@ export default function ProfileScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
-          <View style={{ position: "absolute", top: 65, marginLeft: 10, zIndex: 10}}>
+          <View style={{ position: "absolute", top: 65, marginLeft: 10, zIndex: 10 }}>
             <BackButton />
           </View>
           <ScrollView style={styles.scrollViewContainer}>
