@@ -10,6 +10,7 @@ export type HeaderProps = {
 export type FadeAnimationProps = {
     children: React.ReactNode;
     duration: number;
+    delay?: number;
 };
 
 export type NoAuthParams = {
@@ -69,4 +70,10 @@ export type PointAnimationProps = {
 export type LeaderboardStats = {
     points: number,
     username: string,
+}
+
+export type StatCardProps = {
+    title: string,
+    amount: number,
+    delay?: number,
 }
