@@ -1,8 +1,7 @@
 import { User, UserCredential } from "firebase/auth";
-import { VoidFunctionComponent } from "react";
 import { ViewStyle } from "react-native";
 
-export interface HeaderProps {
+export type HeaderProps = {
     title: string;
     description: string;
     style?: ViewStyle;
@@ -26,7 +25,7 @@ export type AppParams = {
     Instructions: undefined;
 };
 
-export interface UserContextType {
+export type UserContextType = {
     user: User | null;
     logIn: (email: string, password: string) => Promise<UserCredential>
     register: (email: string, password: string, username: string) => Promise<UserCredential>
@@ -41,7 +40,7 @@ export type GameStats = {
     games: number;
 }
 
-export interface StatsContextType {
+export type StatsContextType = {
     stats: GameStats | null;
     refreshStats: () => Promise<void>;
 }
