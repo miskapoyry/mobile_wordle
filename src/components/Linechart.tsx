@@ -3,6 +3,7 @@ import { Surface, Text } from 'react-native-paper';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { fetchGameData } from '../utils/resultService';
+import FadeInAnimation from './FadeInAnimation';
 
 export default function RatingChart() {
 
@@ -65,28 +66,30 @@ export default function RatingChart() {
     };
 
     return (
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text variant="displayMedium" style={{ marginBottom: 10 }}>YOUR LAST 10 GAMES</Text>
-            <LineChart
-                data={data}
-                width={screenWidth * 0.9}
-                height={200}
-                yAxisSuffix=" RP"
-                chartConfig={{
-                    backgroundGradientFrom: "#00112b",
-                    backgroundGradientTo: "#00112b",
-                    decimalPlaces: 0,
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    fillShadowGradientTo: "white",
-                    fillShadowGradientFromOpacity: .5,
-                    propsForDots: {
-                        r: "1",
-                        strokeWidth: "2",
-                        stroke: "white"
-                    }
-                }}
-            />
-        </View>
+        <FadeInAnimation duration={1000}>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <Text variant="displayMedium" style={{ marginBottom: 20 }}>LAST 10 GAMES RESULTS</Text>
+                <LineChart
+                    data={data}
+                    width={screenWidth * 0.9}
+                    height={200}
+                    yAxisSuffix=" RP"
+                    chartConfig={{
+                        backgroundGradientFrom: "#00112b",
+                        backgroundGradientTo: "#00112b",
+                        decimalPlaces: 0,
+                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        fillShadowGradientTo: "white",
+                        fillShadowGradientFromOpacity: .5,
+                        propsForDots: {
+                            r: "1",
+                            strokeWidth: "2",
+                            stroke: "white"
+                        }
+                    }}
+                />
+            </View>
+        </FadeInAnimation>
     );
 }
