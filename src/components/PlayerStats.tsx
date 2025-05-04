@@ -4,7 +4,6 @@ import { useStats } from '../hooks/useStats'
 import { statisticStyles, styles } from '../styles/styles';
 import RatingChart from './Linechart';
 import StatCard from './StatCard';
-import PointAnimation from './PointAnimation';
 import { getPlayerRank } from '../utils/rankService';
 import { ProgressBar, Text } from 'react-native-paper';
 import LottieView from 'lottie-react-native';
@@ -53,7 +52,7 @@ export default function PlayerStats() {
                     <RatingChart />
                 </View>
 
-                <View>
+                <View style={{ paddingBottom: 30}}>
                     <Text variant="displaySmall" style={{ textAlign: "center" }}>CURRENT STATISTICS</Text>
                     <View style={{ flexDirection: "row", justifyContent: "center", gap: 20, marginTop: 20 }}>
                         <StatCard title="WINS" amount={wins} delay={500} />
