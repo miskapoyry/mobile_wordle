@@ -7,10 +7,12 @@ export default function PointAnimation({ totalPoints, difference, fontSize }: Po
     const [pointAmount, setPointAmount] = useState(totalPoints);
     let color = "white";
 
-    if(difference >= 0){
+    if(difference > 0){
         color = "green";
-    } else {
+    } else if(difference < 0) {
         color = "red";
+    } else{
+        color = "white"
     }
 
     useEffect(() => {
