@@ -1,9 +1,8 @@
 import { Button, Text, TextInput } from 'react-native-paper';
-import React, { useState } from 'react'
+import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/styles';
-import { useAuth } from '../hooks/useAuthContext';
-import { Keyboard, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -11,30 +10,14 @@ import { NoAuthParams } from '../types/types';
 import { Platform } from 'react-native';
 import Loading from '../components/Loading';
 import LottieView from 'lottie-react-native';
+import { useLogin } from '../hooks/useLogin';
 
 const LoginScreen = () => {
 
   type LoginNav = NativeStackNavigationProp<NoAuthParams, 'Login'>;
 
-  const { logIn } = useAuth();
   const navigation = useNavigation<LoginNav>();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = async () => {
-    try {
-      setError(null);
-      setLoading(true);
-      await logIn(email, password);
-    } catch (error: any) {
-      setError(error.message)
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { email, setEmail, password, setPassword, loading, showPassword, setShowPassword, handleLogin} = useLogin();
 
   if (loading) {
     return <Loading />;
