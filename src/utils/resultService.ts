@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, increment, limit, orderBy, query, serverTimestamp, setDoc, Timestamp } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, increment, limit, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import { db, FIREBASE_AUTH } from "../firebaseConfig"
 
 export const saveResult = async (status: "won" | "lost", wordLength: number, targetWord: string) => {
@@ -68,7 +68,6 @@ export const fetchGameData = async () => {
 
     return snapshot.docs.reverse().map((doc) => {
         const data = doc.data();
-        console.log(data.pointTotal)
         return data.pointTotal;
     });
 }
