@@ -25,6 +25,13 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
     const navigation = useAppNavigation();
     const { stats } = useStats();
 
+    const handleGiveUp = async () => {
+        setStatus("lost");
+        setModalVisible(true);
+        await saveResult("lost", targetWord.length, targetWord);
+        refreshStats();
+    }
+
     const handleGuess = async () => {
 
         const loweredGuess = guess.toLowerCase();
@@ -111,7 +118,8 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
                         keyboardAppearance="dark"
                         submitBehavior="submit"
                     />
-                    <Button onPress={handleGuess}>Make Guess</Button>
+                    <Button onPress={handleGuess} textColor="white">Make Guess</Button>
+                    <Button onPress={handleGiveUp} textColor="red" style={{ top: -10}}>Give Up</Button>
                 </>
             )}
 

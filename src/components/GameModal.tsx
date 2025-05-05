@@ -13,6 +13,7 @@ export default function GameModal({ visible, status, targetWord, goHome, definit
 
     const gameWon = status === "won";
     let playerPointsDiff = 0
+    let prefix = "";
 
     if (gameWon) {
         playerPointsDiff = getPoints(targetWord.length)
@@ -21,6 +22,9 @@ export default function GameModal({ visible, status, targetWord, goHome, definit
     }
 
     let totalPoints = startingPoints + playerPointsDiff;
+    if(totalPoints < 0){
+        prefix = "-";
+    }
 
     return (
         <Portal>
@@ -61,7 +65,8 @@ export default function GameModal({ visible, status, targetWord, goHome, definit
                             YOUR TOTAL POINTS ARE:
                         </Text>
 
-                        <View style={{ marginBottom: 20 }}>
+                        <View style={{ marginBottom: 20, flexDirection: "row", justifyContent: "center" }}>
+                            <Text style={{ color: "red", fontSize: 30 }}>{prefix}</Text>
                             <PointAnimation totalPoints={startingPoints} difference={playerPointsDiff} fontSize={30} />
                         </View>
 
