@@ -92,3 +92,8 @@ export type SharingProps = {
     guesses: number,
     rating: number,
 }
+
+export type ErrorAlertProps = {
+    title: string,
+    message: string,
+}
