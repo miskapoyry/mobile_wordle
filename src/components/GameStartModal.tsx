@@ -2,11 +2,9 @@ import SegmentedControl from "@react-native-segmented-control/segmented-control"
 import { TouchableOpacity, View } from "react-native";
 import { Portal, Button, Text, Modal } from "react-native-paper";
 import { modalStyles } from "../styles/modalStyles";
-import { styles } from "../styles/styles";
 import { GameStartModalProps } from "../types/types";
 import React from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { shareResult } from "../utils/shareService";
 
 export default function GameStartModal({ visible, onDismiss, onStart, wordLength, setWordLength }: GameStartModalProps) {
     const lengths = ["4", "5", "6", "7"];

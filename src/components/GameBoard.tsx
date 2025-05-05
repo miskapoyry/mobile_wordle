@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { View, TextInput, SafeAreaView, Alert } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { fetchWordDefinition, validateRandomWord } from "../utils/wordService";

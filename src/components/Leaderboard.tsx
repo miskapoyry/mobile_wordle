@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import { Text } from "react-native-paper";
 import { getTop20 } from "../utils/resultService";
 import { LeaderboardStats } from "../types/types";

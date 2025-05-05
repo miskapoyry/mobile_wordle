@@ -2,7 +2,6 @@ import { Button, Text, TextInput } from 'react-native-paper';
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '../styles/styles';
-import { useAuth } from '../hooks/useAuthContext';
 import Loading from '../components/Loading';
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';

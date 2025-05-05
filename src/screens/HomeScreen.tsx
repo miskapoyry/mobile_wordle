@@ -1,13 +1,10 @@
-import { Button, Modal, Portal, Text } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "../styles/styles";
 import PageHeader from "../components/PageHeader";
-import { View, StyleSheet } from "react-native";
-import FadeInAnimation from "../components/FadeInAnimation";
+import { View } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import { modalStyles } from "../styles/modalStyles";
 import { AppParams } from "../types/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ProfileMenu from "../components/ProfileMenu";

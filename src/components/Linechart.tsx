@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Surface, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { fetchGameData } from '../utils/resultService';

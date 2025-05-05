@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { FadeAnimationProps } from '../types/types'
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function FadeInAnimation({ children, duration, delay = 0 }: FadeAnimationProps) {
 
