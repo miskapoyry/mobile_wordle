@@ -97,3 +97,10 @@ export type ErrorAlertProps = {
     title: string,
     message: string,
 }
+
+export type ProfileUpdateProps = {
+    username?: string,
+    image?: string | null,
+    password?: string,
+    passwordAgain?: string,
+}

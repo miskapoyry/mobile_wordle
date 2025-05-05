@@ -1,78 +1,31 @@
 import React, { useState } from "react";
-import { Image, View, Alert, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
+import { Image, View, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
 import { Button, IconButton, Text, TextInput } from "react-native-paper";
 import { useAuth } from "../hooks/useAuthContext";
-import { useAuthFunctions } from "../hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PageHeader from "../components/PageHeader";
-import { db, FIREBASE_AUTH } from "../firebaseConfig";
-import { updateProfile } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
 import { Platform } from "react-native";
 import { styles } from "../styles/styles";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AppParams } from "../types/types";
 import BackButton from "../components/BackButton";
 import { useProfilePicture } from "../hooks/useProfilePicture";
-import { usePasswordChange } from "../hooks/usePasswordChange";
+import { List } from "react-native-paper";
+import Loading from "../components/Loading";
+import { useProfileFunctions } from "../hooks/useProfileFunctions";
 
 export default function ProfileScreen() {
   const { logOut, user } = useAuth();
-  const [error, setError] = useState("");
   const [username, setUsername] = useState(user?.displayName ?? "");
   const defaultImage = require("../assets/profile.png");
-  const navigation = useNavigation<NativeStackNavigationProp<AppParams>>();
-  const { checkUsernameUniqueness } = useAuthFunctions();
   const { image, pickImage, useCamera, deletePicture } = useProfilePicture(user?.photoURL ?? null);
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordAgain, setShowPasswordAgain] = useState(false);
-  const { changePassword } = usePasswordChange();
+  const { handleProfileSave, handleLogOut, loading, error } = useProfileFunctions({username, image: image?? "", password, passwordAgain});
 
-  const handleLogOut = async () => {
-    try {
-      await logOut();
-    } catch (error: any) {
-      setError(error.message);
-    }
-  };
-
-  const handleProfileSave = async () => {
-    const currentUser = FIREBASE_AUTH.currentUser;
-    if (!currentUser) return;
-    const nameUnique = await checkUsernameUniqueness(username);
-
-    if (!nameUnique) {
-      Alert.alert("This username is already in use!");
-      return;
-    }
-
-    if(password && passwordAgain){
-      const response = await changePassword(password,passwordAgain);
-      if (!response) return;
-    }
-
-    try {
-      await updateProfile(currentUser, {
-        displayName: username,
-        photoURL: image ?? null,
-      });
-      const userRef = doc(db, "users", currentUser.uid);
-      await updateDoc(userRef, {
-        username: username,
-        photoURL: image ?? null,
-      });
-      await currentUser.reload()
-      Alert.alert("Profile updated!");
-      navigation.navigate("Home", { refresh: true });
-    } catch (error: any) {
-      setError(error.message);
-    }
-  };
-
-
+  if (loading){
+    return <Loading />
+  }
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}
@@ -97,19 +50,21 @@ export default function ProfileScreen() {
               </View>
             </View>
 
-            <View>
-              <Text variant="displaySmall" style={{ textAlign: "center", marginBottom: 5 }}>CHANGE USERNAME</Text>
-              <TextInput
-                mode="outlined"
-                label="Username"
-                value={username}
-                onChangeText={setUsername}
-                left={<TextInput.Icon icon="account" color="#999999" />}
-                style={styles.input}
-                theme={{ colors: { primary: "white" } }}
-                maxLength={12}
-              />
-              <Text variant="displaySmall" style={{ textAlign: "center", marginBottom: 5 }}>CHANGE PASSWORD</Text>
+            <List.Section>
+              <List.Accordion title="CHANGE USERNAME" titleStyle={{ color: "white", fontFamily: "JetBrainsMonoBold" }} left={ () => <List.Icon icon="account" style={{ paddingLeft: 15}} />}>
+                <TextInput
+                  mode="outlined"
+                  label="Username"
+                  value={username}
+                  onChangeText={setUsername}
+                  left={<TextInput.Icon icon="account" color="#999999" />}
+                  style={styles.input}
+                  theme={{ colors: { primary: "white" } }}
+                  maxLength={12}
+                />
+              </List.Accordion>
+              <View style={{ padding: 5}} />
+              <List.Accordion title="CHANGE PASSWORD" titleStyle={{ color: "white", fontFamily: "JetBrainsMonoBold" }} left={ () => <List.Icon icon="lock" style={{ paddingLeft: 15}} />}>
               <TextInput
                 label="Password"
                 value={password}
@@ -140,7 +95,9 @@ export default function ProfileScreen() {
                   />
                 }
               />
-            </View>
+              </ List.Accordion >
+              <View style={{ padding: 5}} />
+            </List.Section>
             <Button mode="contained" onPress={handleProfileSave} style={{ marginTop: 15, backgroundColor: "green" }}>
               Save Changes
             </Button>
