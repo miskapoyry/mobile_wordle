@@ -12,6 +12,7 @@ import PageHeader from "./PageHeader";
 import GameModal from "./GameModal";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import { useStats } from "../hooks/useStats";
+import { View as AnimatedView } from "react-native-animatable";
 
 export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
     const [guess, setGuess] = useState("");
@@ -49,17 +50,21 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
         const defi = await fetchWordDefinition(targetWord);
         setDefinition(defi);
 
-        if (loweredGuess === targetWord){
-            setModalVisible(true);
+        if (loweredGuess === targetWord) {
             setStatus("won");
-            await saveResult("won", targetWord.length, targetWord);
-            refreshStats();
+            setTimeout(async () => {
+                setModalVisible(true);
+                await saveResult("won", targetWord.length, targetWord);
+                refreshStats();
+            }, 800);
         }
-        else if (guesses.length + 1 >= maxGuesses){
-            setModalVisible(true);
+        else if (guesses.length + 1 >= maxGuesses) {
             setStatus("lost");
-            await saveResult("lost", targetWord.length, targetWord);
-            refreshStats();
+            setTimeout(async () => {
+                setModalVisible(true);
+                await saveResult("lost", targetWord.length, targetWord);
+                refreshStats();
+            }, 800);
         }
     };
 
@@ -78,9 +83,9 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
                             : "gray";
 
             letterGuesses.push(
-                    <View key={i} style={[gameStyles.letterContainer, { backgroundColor: backGround }]}>
-                        <Text style={gameStyles.letterText}>{character}</Text>
-                    </View>
+                <AnimatedView key={i} style={[gameStyles.letterContainer, { backgroundColor: backGround }]} duration={800} animation="flipInY" delay={i * 200} useNativeDriver>
+                    <Text style={gameStyles.letterText}>{character}</Text>
+                </AnimatedView>
             );
         }
 
@@ -100,7 +105,7 @@ export default function GameBoard({ targetWord, maxGuesses }: GameProps) {
                         onChangeText={setGuess}
                         placeholder="Your guess"
                         style={{ opacity: 0, fontSize: 0 }}
-                        autoFocus = {true}
+                        autoFocus={true}
                         maxLength={targetWord.length}
                         returnKeyType="none"
                         keyboardAppearance="dark"

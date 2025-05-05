@@ -14,9 +14,17 @@ export const useAuthFunctions = () => {
         const found = snapshot.docs[0];
 
         return found.id === user?.uid;
-    }
+    };
+
+    const checkUsernameUniquenessRegister = async (username: string): Promise<boolean> => {
+        const userRef = collection(db, "users");
+        const userQuery = query(userRef, where("username", "==", username));
+        const snapshot = await getDocs(userQuery);
+
+        return snapshot.empty;
+    };
 
     return {
-        checkUsernameUniqueness
+        checkUsernameUniqueness, checkUsernameUniquenessRegister
     }
 }
