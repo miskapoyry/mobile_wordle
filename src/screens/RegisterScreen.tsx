@@ -6,35 +6,14 @@ import { useAuth } from '../hooks/useAuthContext';
 import Loading from '../components/Loading';
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useRegister } from '../hooks/useRegister';
+import LottieView from 'lottie-react-native';
 
 const RegisterScreen = () => {
     const navigation = useNavigation();
-    const { register } = useAuth();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordAgain, setPasswordAgain] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [username, setUsername] = useState("");
-    const [error, setError] = useState<string | null>(null);
-
-    const handleRegister = async () => {
-        if (password !== passwordAgain) {
-            setError("The passwords need to match!");
-            return;
-        }
-        try {
-            setError(null);
-            setLoading(true);
-            await register(email, password, username);
-            alert("Rekisteröinti onnistui!");
-        } catch (error: any) {
-            setError(error.message)
-            alert(error)
-        } finally {
-            setLoading(false);
-        }
-    }
+    const [showPasswordAgain, setShowPasswordAgain] = useState(false);
+    const { email, setEmail, username, setUsername, password, setPassword, passwordAgain, setPasswordAgain, loading, error, handleRegister } = useRegister();
 
     if (loading) return <Loading />;
 
@@ -43,11 +22,32 @@ const RegisterScreen = () => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <SafeAreaView style={styles.container}>
-                    <Text variant="displayMedium" style={styles.title}>Register</Text>
+                    <LottieView
+                        source={require("../assets/bgAnimation.json")}
+                        autoPlay
+                        loop
+                        style={{ width: "100%", height: "100%", alignContent: "center", alignSelf: "center", position: "absolute", zIndex: -100 }}
+                    />
 
-                    <TextInput label="Username" onChangeText={setUsername} mode="outlined" left={<TextInput.Icon icon="account" color="#999999" />} />
+                    <Text variant="displayMedium" style={styles.title}>REGISTER</Text>
 
-                    <TextInput label="Email" onChangeText={setEmail} mode="outlined" left={<TextInput.Icon icon="email" color={"#999999"} />} />
+                    <TextInput
+                        label="Username"
+                        onChangeText={setUsername}
+                        mode="outlined"
+                        left={<TextInput.Icon icon="account" color="#999999" />}
+                        theme={{ colors: { primary: "white" } }}
+                        maxLength={12}
+                    />
+
+                    <TextInput
+                        label="Email"
+                        onChangeText={setEmail}
+                        mode="outlined"
+                        left={<TextInput.Icon icon="email" color={"#999999"} />}
+                        theme={{ colors: { primary: "white" } }}
+                    />
+
                     <TextInput
                         label="Password"
                         value={password}
@@ -55,6 +55,7 @@ const RegisterScreen = () => {
                         mode="outlined"
                         secureTextEntry={!showPassword}
                         left={<TextInput.Icon icon="lock" color="#999999" />}
+                        theme={{ colors: { primary: "white" } }}
                         right={
                             <TextInput.Icon
                                 icon={showPassword ? "eye-off" : "eye"}
@@ -62,17 +63,19 @@ const RegisterScreen = () => {
                             />
                         }
                     />
+
                     <TextInput
                         label="Password again"
                         value={passwordAgain}
                         onChangeText={setPasswordAgain}
                         mode="outlined"
-                        secureTextEntry={!showPassword}
+                        secureTextEntry={!showPasswordAgain}
                         left={<TextInput.Icon icon="lock" color="#999999" />}
+                        theme={{ colors: { primary: "white" } }}
                         right={
                             <TextInput.Icon
-                                icon={showPassword ? "eye-off" : "eye"}
-                                onPress={() => setShowPassword(prev => !prev)}
+                                icon={showPasswordAgain ? "eye-off" : "eye"}
+                                onPress={() => setShowPasswordAgain(prev => !prev)}
                             />
                         }
                     />
@@ -81,7 +84,7 @@ const RegisterScreen = () => {
                             Register Account
                         </Button>
                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <Text style={{ marginTop: 10, color: "blue" }}>
+                            <Text style={{ marginTop: 10, color: "white" }}>
                                 Already have an account?
                             </Text>
                         </TouchableOpacity>

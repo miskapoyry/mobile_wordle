@@ -107,6 +107,7 @@ export default function ProfileScreen() {
                 left={<TextInput.Icon icon="account" color="#999999" />}
                 style={styles.input}
                 theme={{ colors: { primary: "white" } }}
+                maxLength={12}
               />
               <Text variant="displaySmall" style={{ textAlign: "center", marginBottom: 5 }}>CHANGE PASSWORD</Text>
               <TextInput

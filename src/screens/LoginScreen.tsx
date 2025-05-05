@@ -34,13 +34,14 @@ const LoginScreen = () => {
             loop
             style={{ width: "100%", height: "100%", alignContent: "center", alignSelf: "center", position: "absolute", zIndex: -100 }}
           />
-          <Text variant="displayMedium" style={styles.title}>Login</Text>
+          <Text variant="displayMedium" style={styles.title}>LOGIN</Text>
           <TextInput
             label="Email"
             onChangeText={setEmail}
             mode="outlined"
             left={<TextInput.Icon icon="email" color={"#999999"} />}
             autoCorrect={false}
+            theme={{ colors: { primary: "white" } }}
           />
           <TextInput
             key={showPassword ? 'visible' : 'hidden'}
@@ -51,6 +52,7 @@ const LoginScreen = () => {
             autoCorrect={false}
             secureTextEntry={!showPassword}
             left={<TextInput.Icon icon="lock" color="#999999" />}
+            theme={{ colors: { primary: "white" } }}
             right={
               <TextInput.Icon
                 icon={showPassword ? "eye-off" : "eye"}
@@ -64,7 +66,7 @@ const LoginScreen = () => {
               Login
             </Button>
             <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-              <Text style={{ marginTop: 10, color: "blue" }}>
+              <Text style={{ marginTop: 10, color: "white" }}>
                 Don't have an account yet?
               </Text>
             </TouchableOpacity>
